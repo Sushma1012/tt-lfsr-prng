@@ -1,0 +1,3 @@
+read_verilog src/tt_um_lfsr_prng.v
+synth -top tt_um_lfsr_prng
+stat
