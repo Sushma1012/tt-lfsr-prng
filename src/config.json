@@ -3,8 +3,6 @@
   "CLOCK_PORT": "clk",
   "CLOCK_PERIOD": 20,
   "VERILOG_FILES": [
-    "dir::src/project.v",
     "dir::src/tt_um_sushma1012_lfsr_prng.v"
   ]
-}
-
+} 
