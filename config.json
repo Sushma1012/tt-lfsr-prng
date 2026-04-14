@@ -38,7 +38,7 @@
   "//": "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
 
   "//": "Save some time",
-"VERILOG_FILES": "dir::src/*.v",
+"VERILOG_FILES": "dir::*.v",
   "RUN_KLAYOUT_XOR": 0,
   "RUN_KLAYOUT_DRC": 0,
 
