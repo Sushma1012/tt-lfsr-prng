@@ -16,7 +16,7 @@
  */
 
 `default_nettype none
-
+/* verilator lint_off UNUSEDSIGNAL */
 module tt_um_sushma1012_lfsr_prng (
     input  wire [7:0] ui_in,
     output wire [7:0] uo_out,
@@ -84,3 +84,4 @@ module tt_um_sushma1012_lfsr_prng (
     assign uio_oe  = 8'hFF;           // all bidir pins as output
 
 endmodule
+/* verilator lint_on UNUSEDSIGNAL */
