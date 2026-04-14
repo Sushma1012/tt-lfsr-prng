@@ -9,11 +9,11 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+This project implements a 16-bit Linear Feedback Shift Register (LFSR) pseudo-random number generator. The LFSR updates on every clock cycle and produces pseudo-random outputs which are mapped to output pins.
 
 ## How to test
 
-Explain how to use your project
+Apply a clock signal and reset. Observe the output pins changing in a pseudo-random pattern on every clock cycle.
 
 ## External hardware
 
