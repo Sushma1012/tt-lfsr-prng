@@ -38,7 +38,7 @@
   "//": "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
 
   "//": "Save some time",
-"VERILOG_FILES": "dir::project.v dir::tt_um_lfsr_prng.v",
+"VERILOG_FILES": "dir::src/project.v dir::src/tt_um_lfsr_prng.v",
   "RUN_KLAYOUT_XOR": 0,
   "RUN_KLAYOUT_DRC": 0,
 
