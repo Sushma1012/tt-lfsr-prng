@@ -26,7 +26,7 @@ module tt_um_example (
 
 endmodule
 `default_nettype none
-
+`include "src/tt_um_lfsr_prng.v"
 module project (
     input  wire [7:0] ui_in,
     output wire [7:0] uo_out,
