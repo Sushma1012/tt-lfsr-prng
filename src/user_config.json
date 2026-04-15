@@ -1,7 +1,6 @@
 {
   "DESIGN_NAME": "tt_um_sushma1012_lfsr_prng",
   "VERILOG_FILES": [
-    "dir::project.v",
     "dir::tt_um_sushma1012_lfsr_prng.v"
   ],
   "DIE_AREA": "0 0 161.00 111.52",
