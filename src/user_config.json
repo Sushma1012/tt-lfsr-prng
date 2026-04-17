@@ -3,7 +3,6 @@
   "VERILOG_FILES": [
     "dir::tt_um_sushma1012_lfsr_prng.v"
   ],
-  "DIE_AREA": "0 0 161.00 111.52",
   "FP_DEF_TEMPLATE": "dir::../tt/tech/sky130A/def/tt_block_1x1_pg.def",
   "VDD_PIN": "VPWR",
   "GND_PIN": "VGND",
