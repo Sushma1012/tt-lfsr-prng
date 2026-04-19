@@ -1,4 +1,4 @@
-#!/home/sushmab/tt-lfsr-prng/venv/bin/python3
+#!/home/sushmab/tt-lfsr-prng/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

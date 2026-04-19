@@ -1,0 +1,56 @@
+# Tiny Tapeout project information
+project:
+  title: "LFSR Pseudo-Random Number Generator with 7-Segment Output"              # Project title
+  author:       "BURJA SUSHMA"      # Your name
+  discord:      ""      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
+  description:  "A 16-bit Fibonacci LFSR (polynomial x^16+x^15+x^13+x^4+1) that generates pseudo-random numbers. The lower nibble drives a 7-segment display. Supports enable/pause and runtime seed loading via input pins."      # One line description of what your project does
+  language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
+  clock_hz:    10000000        # Clock frequency in Hz (or 0 if not applicable)
+
+  # How many tiles your design occupies? A single tile is about 167x108 uM.
+  tiles: "1x1"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
+
+  # Your top module name must start with "tt_um_". Make it unique by including your github username:
+  top_module:  "tt_um_sushma1012_lfsr_prng"
+
+  # List your project's source files here.
+  # Source files must be in ./src and you must list each source file separately, one per line.
+  # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
+  source_files:
+    - "tt_um_sushma1012_lfsr_prng.v"
+
+# The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
+# This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
+pinout:
+  # Inputs
+  ui[0]: "input"
+  ui[1]: "input"
+  ui[2]: "input"
+  ui[3]: "input"
+  ui[4]: "input"
+  ui[5]: "input"
+  ui[6]: "input"
+  ui[7]: "input"
+
+  # Outputs
+  uo[0]: "output"
+  uo[1]: "output"
+  uo[2]: "output"
+  uo[3]: "output"
+  uo[4]: "output"
+  uo[5]: "output"
+  uo[6]: "output"
+  uo[7]: "output"
+
+  # Bidirectional pins
+  uio[0]: "inout"
+  uio[1]: "inout"
+  uio[2]: "inout"
+  uio[3]: "inout"
+  uio[4]: "inout"
+  uio[5]: "inout"
+  uio[6]: "inout"
+  uio[7]: "inout"
+
+# Do not change!
+yaml_version: 6
