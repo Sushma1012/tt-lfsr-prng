@@ -10,15 +10,12 @@
   "VDD_PIN": "VPWR",
   "GND_PIN": "VGND",
   "RT_MAX_LAYER": "met4",
-  "FP_DEF_TEMPLATE": "dir::../tt/tech/sky130A/def/tt_block_1x1_pg.def",
+  "FP_DEF_TEMPLATE": "ref::$DESIGN_DIR/../tt/tech/sky130A/def/tt_block_1x1_pg.def",
   "DIE_AREA": "0 0 161.00 111.52",
   "FP_SIZING": "absolute",
   "PL_TARGET_DENSITY_PCT": 13,
   "GPL_CELL_PADDING": 2,
   "PDN_MULTILAYER": false,
-  "FP_IO_VLENGTH": 2,
-  "FP_IO_HLENGTH": 2,
   "FP_IO_VTHICKNESS_MULT": 4,
-  "FP_IO_HTHICKNESS_MULT": 4,
-  "FP_IO_MODE": 0
+  "FP_IO_HTHICKNESS_MULT": 4
 }
