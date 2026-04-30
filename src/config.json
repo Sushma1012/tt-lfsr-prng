@@ -9,7 +9,7 @@
   "SIGNOFF_SDC_FILE": "dir::constraints.sdc",
   "VDD_PIN": "VPWR",
   "GND_PIN": "VGND",
-  "RT_MAX_LAYER": "met4",
+  "RT_MAX_LAYER": "met3",
   "FP_DEF_TEMPLATE": "ref::$DESIGN_DIR/../tt/tech/sky130A/def/tt_block_1x1_pg.def",
   "DIE_AREA": "0 0 161.00 111.52",
   "FP_SIZING": "absolute",
