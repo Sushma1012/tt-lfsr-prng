@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: checkout repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4          # fix: v6 doesn't exist
         with:
           submodules: recursive
       - name: Build GDS
@@ -20,14 +20,25 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: checkout repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4          # fix: v6 doesn't exist
         with:
           submodules: recursive
+
+      - name: List available artifacts (debug)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId,
+            });
+            console.log("Available artifacts:", JSON.stringify(artifacts.data.artifacts.map(a => a.name)));
 
       - name: Download GDS artifact
         uses: actions/download-artifact@v4
         with:
-          name: GDS
+          name: GDS                        # fix: must match exact name tt-gds-action uploads
           path: tt_submission
 
       - name: Patch LEF pin rects to match template DEF
@@ -111,7 +122,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: checkout repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4          # fix: v6 doesn't exist
         with:
           submodules: recursive
       - name: GL test
