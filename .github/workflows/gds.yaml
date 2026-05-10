@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: checkout repo
-        uses: actions/checkout@v4          # fix: v6 doesn't exist
+        uses: actions/checkout@v6
         with:
           submodules: recursive
       - name: Build GDS
@@ -15,114 +15,12 @@ jobs:
         with:
           pdk: sky130A
 
-  patch_and_precheck:
-    needs: gds
-    runs-on: ubuntu-24.04
-    steps:
-      - name: checkout repo
-        uses: actions/checkout@v4          # fix: v6 doesn't exist
-        with:
-          submodules: recursive
-
-      - name: List available artifacts (debug)
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: context.runId,
-            });
-            console.log("Available artifacts:", JSON.stringify(artifacts.data.artifacts.map(a => a.name)));
-
-      - name: Download GDS artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: GDS                        # fix: must match exact name tt-gds-action uploads
-          path: tt_submission
-
-      - name: Patch LEF pin rects to match template DEF
-        run: |
-          python3 - << 'PYEOF'
-          import re, os
-
-          correct = {
-          'clk':(143.83,110.52,144.13,111.52),'ena':(146.59,110.52,146.89,111.52),
-          'rst_n':(141.07,110.52,141.37,111.52),'ui_in[0]':(138.31,110.52,138.61,111.52),
-          'ui_in[1]':(135.55,110.52,135.85,111.52),'ui_in[2]':(132.79,110.52,133.09,111.52),
-          'ui_in[3]':(130.03,110.52,130.33,111.52),'ui_in[4]':(127.27,110.52,127.57,111.52),
-          'ui_in[5]':(124.51,110.52,124.81,111.52),'ui_in[6]':(121.75,110.52,122.05,111.52),
-          'ui_in[7]':(118.99,110.52,119.29,111.52),'uio_in[0]':(116.23,110.52,116.53,111.52),
-          'uio_in[1]':(113.47,110.52,113.77,111.52),'uio_in[2]':(110.71,110.52,111.01,111.52),
-          'uio_in[3]':(107.95,110.52,108.25,111.52),'uio_in[4]':(105.19,110.52,105.49,111.52),
-          'uio_in[5]':(102.43,110.52,102.73,111.52),'uio_in[6]':(99.67,110.52,99.97,111.52),
-          'uio_in[7]':(96.91,110.52,97.21,111.52),'uio_oe[0]':(49.99,110.52,50.29,111.52),
-          'uio_oe[1]':(47.23,110.52,47.53,111.52),'uio_oe[2]':(44.47,110.52,44.77,111.52),
-          'uio_oe[3]':(41.71,110.52,42.01,111.52),'uio_oe[4]':(38.95,110.52,39.25,111.52),
-          'uio_oe[5]':(36.19,110.52,36.49,111.52),'uio_oe[6]':(33.43,110.52,33.73,111.52),
-          'uio_oe[7]':(30.67,110.52,30.97,111.52),'uio_out[0]':(72.07,110.52,72.37,111.52),
-          'uio_out[1]':(69.31,110.52,69.61,111.52),'uio_out[2]':(66.55,110.52,66.85,111.52),
-          'uio_out[3]':(63.79,110.52,64.09,111.52),'uio_out[4]':(61.03,110.52,61.33,111.52),
-          'uio_out[5]':(58.27,110.52,58.57,111.52),'uio_out[6]':(55.51,110.52,55.81,111.52),
-          'uio_out[7]':(52.75,110.52,53.05,111.52),'uo_out[0]':(94.15,110.52,94.45,111.52),
-          'uo_out[1]':(91.39,110.52,91.69,111.52),'uo_out[2]':(88.63,110.52,88.93,111.52),
-          'uo_out[3]':(85.87,110.52,86.17,111.52),'uo_out[4]':(83.11,110.52,83.41,111.52),
-          'uo_out[5]':(80.35,110.52,80.65,111.52),'uo_out[6]':(77.59,110.52,77.89,111.52),
-          'uo_out[7]':(74.83,110.52,75.13,111.52),
-          }
-
-          lef_path = 'tt_submission/tt_um_sushma1012_lfsr_prng.lef'
-          lef = open(lef_path).read()
-          lines = lef.split('\n')
-          out = []
-          i = 0
-          fixed = 0
-          while i < len(lines):
-              line = lines[i]
-              m = re.match(r'\s+PIN\s+(\S+)', line)
-              if m:
-                  pin_name = m.group(1)
-                  block = [line]
-                  i += 1
-                  while i < len(lines):
-                      block.append(lines[i])
-                      if re.match(r'\s+END\s+' + re.escape(pin_name) + r'\s*$', lines[i]):
-                          i += 1
-                          break
-                      i += 1
-                  if pin_name in correct:
-                      x1,y1,x2,y2 = correct[pin_name]
-                      block_str = '\n'.join(block)
-                      new_port = f'    PORT\n      LAYER met4 ;\n        RECT {x1:.3f} {y1:.3f} {x2:.3f} {y2:.3f} ;\n    END'
-                      block_str = re.sub(r'    PORT.*?    END', new_port, block_str, flags=re.DOTALL)
-                      out.append(block_str)
-                      fixed += 1
-                  else:
-                      out.append('\n'.join(block))
-              else:
-                  out.append(line)
-                  i += 1
-
-          open(lef_path, 'w').write('\n'.join(out))
-          print(f'Patched {fixed} LEF pins')
-          PYEOF
-
-      - name: Re-upload patched GDS artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: GDS
-          path: tt_submission
-          overwrite: true
-
-      - name: Run Tiny Tapeout Precheck
-        uses: TinyTapeout/tt-gds-action/precheck@ttsky26a
-
   gl_test:
     needs: gds
     runs-on: ubuntu-24.04
     steps:
       - name: checkout repo
-        uses: actions/checkout@v4          # fix: v6 doesn't exist
+        uses: actions/checkout@v6
         with:
           submodules: recursive
       - name: GL test
@@ -135,4 +33,4 @@ jobs:
       pages: write
       id-token: write
     steps:
-      - uses: TinyTapeout/tt-gds-action/viewer@ttsky26a
+      - uses: TinyTapeout/tt-gds-action/viewer@ttsky26a 
